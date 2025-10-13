@@ -1,0 +1,74 @@
+{
+  "placeholderImages": [
+    {
+      "id": "suv-1",
+      "imageUrl": "https://picsum.photos/seed/suv1/800/600",
+      "imageHint": "white suv"
+    },
+    {
+      "id": "suv-2",
+      "imageUrl": "https://picsum.photos/seed/suv2/800/600",
+      "imageHint": "black suv"
+    },
+    { "id": "suv-3", "imageUrl": "https://picsum.photos/seed/suv3/800/600", "imageHint": "suv interior" },
+    { "id": "suv-4", "imageUrl": "https://picsum.photos/seed/suv4/800/600", "imageHint": "suv dashboard" },
+    {
+      "id": "sedan-1",
+      "imageUrl": "https://picsum.photos/seed/sedan1/800/600",
+      "imageHint": "red sedan"
+    },
+    {
+      "id": "sedan-2",
+      "imageUrl": "https://picsum.photos/seed/sedan2/800/600",
+      "imageHint": "blue sedan"
+    },
+    { "id": "sedan-3", "imageUrl": "https://picsum.photos/seed/sedan3/800/600", "imageHint": "sedan interior" },
+    { "id": "sedan-4", "imageUrl": "https://picsum.photos/seed/sedan4/800/600", "imageHint": "sedan dashboard" },
+    {
+      "id": "truck-1",
+      "imageUrl": "https://picsum.photos/seed/truck1/800/600",
+      "imageHint": "pickup truck"
+    },
+    {
+      "id": "truck-2",
+      "imageUrl": "https://picsum.photos/seed/truck2/800/600",
+      "imageHint": "commercial truck"
+    },
+    { "id": "truck-3", "imageUrl": "https://picsum.photos/seed/truck3/800/600", "imageHint": "truck bed" },
+    { "id": "truck-4", "imageUrl": "https://picsum.photos/seed/truck4/800/600", "imageHint": "truck cabin" },
+    {
+      "id": "hatchback-1",
+      "imageUrl": "https://picsum.photos/seed/hatch1/800/600",
+      "imageHint": "gray hatchback"
+    },
+    {
+      "id": "minivan-1",
+      "imageUrl": "https://picsum.photos/seed/van1/800/600",
+      "imageHint": "silver minivan"
+    },
+    {
+      "id": "luxury-1",
+      "imageUrl": "https://picsum.photos/seed/luxury1/800/600",
+      "imageHint": "luxury car"
+    },
+     { "id": "luxury-2", "imageUrl": "https://picsum.photos/seed/luxury2/800/600", "imageHint": "luxury interior" },
+    { "id": "luxury-3", "imageUrl": "https://picsum.photos/seed/luxury3/800/600", "imageHint": "luxury dashboard" },
+    {
+      "id": "electric-1",
+      "imageUrl": "https://picsum.photos/seed/electric1/800/600",
+      "imageHint": "electric vehicle"
+    },
+    { "id": "electric-2", "imageUrl": "https://picsum.photos/seed/electric2/800/600", "imageHint": "electric interior" },
+    { "id": "electric-3", "imageUrl": "https://picsum.photos/seed/electric3/800/600", "imageHint": "electric dashboard" },
+    {
+      "id": "offroad-1",
+      "imageUrl": "https://picsum.photos/seed/offroad1/800/600",
+      "imageHint": "off-road vehicle"
+    },
+    {
+      "id": "classic-1",
+      "imageUrl": "https://picsum.photos/seed/classic1/800/600",
+      "imageHint": "classic car"
+    }
+  ]
+}
