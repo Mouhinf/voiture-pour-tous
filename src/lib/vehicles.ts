@@ -28,8 +28,8 @@ export const staticVehicles: Vehicle[] = [
         { id: 'sedan-1', url: '/honda1.png', hint: 'red sedan', type: 'image' },
         { id: 'sedan-2', url: '/honda2.png', hint: 'blue sedan', type: 'image' },
         { id: 'sedan-3', url: '/honda3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/honda3.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-1', url: 'https://picsum.photos/seed/civic-video/800/600', hint: 'civic video', type: 'video' }
+        { id: 'sedan-4', url: '/honda4.jpeg', hint: 'sedan dashboard', type: 'image' },
+        { id: 'video-placeholder-1', url: '/honda.mp4', hint: 'civic video', type: 'video' }
     ],
     listingType: 'sale',
   },
