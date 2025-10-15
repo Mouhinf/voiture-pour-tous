@@ -50,7 +50,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'sedan-2', url: '/kia1.png', hint: 'blue sedan', type: 'image' },
         { id: 'sedan-3', url: '/peugeot.png', hint: 'sedan interior', type: 'image' },
         { id: 'sedan-4', url: 'https://images.unsplash.com/photo-1647269826024-2bf241770b6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0b3lvdGElMjB5YXJpc3xlbnwwfHx8fDE3NTg1NDMyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-2', url: 'https://picsum.photos/seed/fusion-video/800/600', hint: 'fusion video', type: 'video' }
+        { id: 'video-placeholder-2', url: '/honda.mp4', hint: 'fusion video', type: 'video' }
     ],
     listingType: 'sale',
   },
@@ -71,7 +71,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'suv-1', url: '/seniran.png', hint: 'white suv', type: 'image' },
         { id: 'truck-3', url: '/Ford1.png', hint: 'pickup interior', type: 'image' },
         { id: 'truck-4', url: '/kia1.png', hint: 'pickup dashboard', type: 'image' },
-        { id: 'video-placeholder-3', url: 'https://picsum.photos/seed/hilux-video/800/600', hint: 'hilux video', type: 'video' }
+        { id: 'video-placeholder-3', url: '/honda.mp4', hint: 'hilux video', type: 'video' }
     ],
     listingType: 'rent',
   },
@@ -92,7 +92,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'classic-1', url: '/mercedes.png', hint: 'classic car interior', type: 'image' },
         { id: 'sedan-3', url: '/hyundai.png', hint: 'hatchback interior', type: 'image' },
         { id: 'sedan-4', url: 'https://images.unsplash.com/photo-1647269826024-2bf241770b6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0b3lvdGElMjB5YXJpc3xlbnwwfHx8fDE3NTg1NDMyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'hatchback dashboard', type: 'image' },
-        { id: 'video-placeholder-4', url: 'https://picsum.photos/seed/i10-video/800/600', hint: 'i10 video', type: 'video' }
+        { id: 'video-placeholder-4', url: '/honda.mp4', hint: 'i10 video', type: 'video' }
     ],
     listingType: 'sale',
   },
@@ -113,7 +113,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'suv-2', url: '/hyundai.png', hint: 'black suv', type: 'image' },
         { id: 'luxury-1', url: '/Ford1.png', hint: 'suv interior', type: 'image' },
         { id: 'sedan-4', url: 'https://images.unsplash.com/photo-1647269826024-2bf241770b6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0b3lvdGElMjB5YXJpc3xlbnwwfHx8fDE3NTg1NDMyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-5', url: 'https://picsum.photos/seed/sportage-video/800/600', hint: 'sportage video', type: 'video' }
+        { id: 'video-placeholder-5', url: '/honda.mp4', hint: 'sportage video', type: 'video' }
     ],
     listingType: 'rent',
   },
@@ -134,7 +134,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'sedan-1', url: '/mercedes.png', hint: 'red sedan', type: 'image' },
         { id: 'luxury-2', url: '/prado.png', hint: 'luxury interior', type: 'image' },
         { id: 'luxury-3', url: '/toyota1.png', hint: 'luxury dashboard', type: 'image' },
-        { id: 'video-placeholder-6', url: 'https://picsum.photos/seed/c-class-video/800/600', hint: 'c-class video', type: 'video' }
+        { id: 'video-placeholder-6', url: '/honda.mp4', hint: 'c-class video', type: 'video' }
     ],
     listingType: 'sale',
   },
@@ -155,7 +155,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'hatchback-1', url: '/hyundai.png', hint: 'gray hatchback', type: 'image' },
         { id: 'electric-2', url: '/prado.png', hint: 'electric interior', type: 'image' },
         { id: 'electric-3', url: '/seniran.png', hint: 'electric dashboard', type: 'image' },
-        { id: 'video-placeholder-7', url: 'https://picsum.photos/seed/dolphin-video/800/600', hint: 'dolphin video', type: 'video' }
+        { id: 'video-placeholder-7', url: '/honda.mp4', hint: 'dolphin video', type: 'video' }
     ],
     listingType: 'sale',
   },
@@ -176,7 +176,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'offroad-1', url: '/hyundai.png', hint: 'off-road vehicle', type: 'image' },
         { id: 'suv-3', url: '/mercedes.png', hint: 'suv interior', type: 'image' },
         { id: 'suv-4', url: '/toyota1.png', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-8', url: 'https://picsum.photos/seed/duster-video/800/600', hint: 'duster video', type: 'video' }
+        { id: 'video-placeholder-8', url: '/honda.mp4', hint: 'duster video', type: 'video' }
     ],
     listingType: 'rent',
   },
@@ -197,7 +197,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'sedan-1', url: '/prado.png', hint: 'red sedan', type: 'image' },
         { id: 'sedan-3', url: '/toyota1.png', hint: 'sedan interior', type: 'image' },
         { id: 'sedan-4', url: '/peugeot.png', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-9', url: 'https://picsum.photos/seed/301-video/800/600', hint: '301 video', type: 'video' }
+        { id: 'video-placeholder-9', url: '/honda.mp4', hint: '301 video', type: 'video' }
     ],
     listingType: 'sale',
   },
@@ -218,7 +218,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'truck-2', url: '/mercedes.png', hint: 'commercial truck', type: 'image' },
         { id: 'truck-3', url: '/seniran.png', hint: 'truck interior', type: 'image' },
         { id: 'truck-4', url: '/renault.png', hint: 'truck dashboard', type: 'image' },
-        { id: 'video-placeholder-10', url: 'https://picsum.photos/seed/ranger-video/800/600', hint: 'ranger video', type: 'video' }
+        { id: 'video-placeholder-10', url: '/honda.mp4', hint: 'ranger video', type: 'video' }
     ],
     listingType: 'rent',
   },
@@ -239,7 +239,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'luxury-1', url: '/kia1.png', hint: 'luxury car interior', type: 'image' },
         { id: 'suv-3', url: '/seniran.png', hint: 'suv interior', type: 'image' },
         { id: 'suv-4', url: '/peugeot.png', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-11', url: 'https://picsum.photos/seed/prado-video/800/600', hint: 'prado video', type: 'video' }
+        { id: 'video-placeholder-11', url: '/honda.mp4', hint: 'prado video', type: 'video' }
     ],
     listingType: 'rent',
   },
@@ -260,7 +260,7 @@ export const staticVehicles: Vehicle[] = [
         { id: 'sedan-2', url: '/mercedes.png', hint: 'blue sedan', type: 'image' },
         { id: 'sedan-3', url: '/prado.png', hint: 'sedan interior', type: 'image' },
         { id: 'sedan-4', url: 'https://images.unsplash.com/photo-1647269826024-2bf241770b6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0b3lvdGElMjB5YXJpc3xlbnwwfHx8fDE3NTg1NDMyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-12', url: 'https://picsum.photos/seed/soren-video/800/600', hint: 'soren video', type: 'video' }
+        { id: 'video-placeholder-12', url: '/honda.mp4', hint: 'soren video', type: 'video' }
     ],
     listingType: 'sale',
   },
