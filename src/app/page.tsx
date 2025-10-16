@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center text-center text-white bg-sky-600">
+      <section className="relative h-[70vh] flex items-center justify-center text-center text-foreground bg-background">
         <Image
           src="https://picsum.photos/seed/factory/1920/1080"
           alt="Usine de montage Voiture pour tous"
@@ -46,7 +46,7 @@ export default async function Home() {
             </Button>
           </div>
           <div className="pt-4">
-            <Button asChild variant="link" className="text-white hover:text-white/80 px-0 text-lg">
+            <Button asChild variant="link" className="text-primary hover:text-primary/80 px-0 text-lg">
                 <Link href="/about">
                 En savoir plus sur notre histoire
                 <ArrowRight className="ml-2 h-4 w-4" />
@@ -97,7 +97,7 @@ export default async function Home() {
 
       {/* Featured Sale Section */}
       <section className="container mx-auto px-4">
-        <Card className="bg-background">
+        <Card className="bg-card">
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="font-headline text-3xl flex items-center gap-3">
@@ -123,7 +123,7 @@ export default async function Home() {
       
       {/* Featured Rent Section */}
       <section className="container mx-auto px-4">
-        <Card className="bg-background">
+        <Card className="bg-card">
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="font-headline text-3xl flex items-center gap-3">
@@ -155,12 +155,12 @@ export default async function Home() {
             </h2>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
+            <Card className="bg-card">
                 <CardHeader className="flex-row items-center gap-4">
                     <Image src="https://picsum.photos/seed/avatar1/40/40" alt="Avatar client" width={40} height={40} className="rounded-full" data-ai-hint="man portrait"/>
                     <div>
                         <p className="font-semibold">Moussa Diop</p>
-                        <div className="flex text-yellow-500">
+                        <div className="flex text-primary">
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
@@ -173,12 +173,12 @@ export default async function Home() {
                     <p className="text-muted-foreground italic">"Excellent service ! J'ai acheté ma Seniran Samand et je suis très satisfait. Robuste et économique, parfaite pour Dakar."</p>
                 </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-card">
                  <CardHeader className="flex-row items-center gap-4">
                     <Image src="https://picsum.photos/seed/avatar2/40/40" alt="Avatar client" width={40} height={40} className="rounded-full" data-ai-hint="woman portrait"/>
                     <div>
                         <p className="font-semibold">Aïssatou Fall</p>
-                        <div className="flex text-yellow-500">
+                        <div className="flex text-primary">
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
@@ -191,12 +191,12 @@ export default async function Home() {
                     <p className="text-muted-foreground italic">"J'ai loué un Hilux pour un déplacement en région. Le véhicule était en parfait état et le processus de location a été très simple et rapide."</p>
                 </CardContent>
             </Card>
-            <Card>
+            <Card className="bg-card">
                 <CardHeader className="flex-row items-center gap-4">
                     <Image src="https://picsum.photos/seed/avatar3/40/40" alt="Avatar client" width={40} height={40} className="rounded-full" data-ai-hint="man portrait"/>
                     <div>
                         <p className="font-semibold">Ibrahima Sow</p>
-                        <div className="flex text-yellow-500">
+                        <div className="flex text-primary">
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
                             <Star className="w-4 h-4 fill-current"/>
