@@ -31,7 +31,7 @@ export default function VehicleDetailClient({ vehicle }: { vehicle: Vehicle }) {
   const [selectedMedia, setSelectedMedia] = useState<VehicleImage | null>(null);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   
-  const phoneNumber = '+221777655065';
+  const phoneNumber = '+221777655061';
   const whatsappMessage = `Bonjour, je suis intéressé(e) par le véhicule ${vehicle.make} ${vehicle.model} (${vehicle.year}). Pourriez-vous m'en dire plus ?`;
 
   const formatter = new Intl.NumberFormat('fr-FR', {
