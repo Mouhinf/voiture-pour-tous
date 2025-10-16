@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <div className="space-y-16">
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center justify-center text-center text-white bg-black">
+      <section className="relative h-[70vh] flex items-center justify-center text-center text-white bg-sky-600">
         <Image
           src="https://picsum.photos/seed/factory/1920/1080"
           alt="Usine de montage Voiture pour tous"
@@ -97,7 +97,7 @@ export default async function Home() {
 
       {/* Featured Sale Section */}
       <section className="container mx-auto px-4">
-        <Card className="bg-card/50">
+        <Card className="bg-background">
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="font-headline text-3xl flex items-center gap-3">
@@ -123,7 +123,7 @@ export default async function Home() {
       
       {/* Featured Rent Section */}
       <section className="container mx-auto px-4">
-        <Card className="bg-card/50">
+        <Card className="bg-background">
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="font-headline text-3xl flex items-center gap-3">
