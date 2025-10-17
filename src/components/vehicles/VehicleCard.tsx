@@ -47,7 +47,9 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
           <CardTitle className="font-headline text-xl mb-2">{`${vehicle.make} ${vehicle.model}`}</CardTitle>
           <div className="text-muted-foreground text-sm space-y-2">
             <div className="flex items-center gap-2"><Calendar className="w-4 h-4" /> <span>{vehicle.year}</span></div>
-            <div className="flex items-center gap-2"><Gauge className="w-4 h-4" /> <span>{vehicle.mileage.toLocaleString('fr-FR')} km</span></div>
+            {vehicle.mileage > 0 && (
+              <div className="flex items-center gap-2"><Gauge className="w-4 h-4" /> <span>{vehicle.mileage.toLocaleString('fr-FR')} km</span></div>
+            )}
             <div className="flex items-center gap-2"><Fuel className="w-4 h-4" /> <span>{vehicle.fuelType}</span></div>
             <div className="flex items-center gap-2"><Wrench className="w-4 h-4" /> <span>{vehicle.transmission}</span></div>
           </div>
