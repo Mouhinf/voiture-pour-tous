@@ -1,528 +1,109 @@
 
-import type { Vehicle } from '@/types/vehicle';
+import { Vehicle } from '@/types/vehicle';
+import { collection, getDocs, doc, getDoc, updateDoc, deleteDoc, query, where, limit, addDoc } from 'firebase/firestore';
+import { db } from '@/lib/firebase/config';
+import { v4 as uuidv4 } from 'uuid';
 
-// This data is now the source of truth for the static application.
-export const staticVehicles: Vehicle[] = [
-  {
-    id: '1',
-    make: 'Honda',
-    model: 'Civic Sport',
-    year: 2015,
-    price: 3300000,
-    mileage: 15000,
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: "Moteur 4 cylindres, 1.8L en excellent état. Faible consommation, économique au quotidien. Véhicule fiable et idéal pour la conduite en ville et sur route. Très bon état général. Papiers complets et à jour (assurance et visite technique).",
-    features: [
-        'Grand écran tactile multimédia 📺',
-        'Caméra de recul',
-        'Intérieur propre et bien entretenu',
-        'Volant multifonction',
-        'Climatisation',
-        'Moteur 1.8L, 4 cylindres',
-        'Faible consommation',
-        'Papiers à jour'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-1', url: '/honda1.png', hint: 'red sedan', type: 'image' },
-        { id: 'sedan-2', url: '/honda2.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-3', url: '/honda3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/honda4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-1', url: '/honda.mp4', hint: 'civic video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '2',
-    make: 'Hyundai',
-    model: 'Santa Fe Sport',
-    year: 2018,
-    price: 7950000,
-    mileage: 0, // Mileage is unknown
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: "Découvrez ce superbe Hyundai Santa Fe Sport, SUV haut de gamme alliant puissance, confort et élégance. Ce véhicule est déjà dédouané, jamais accidenté, et prêt à rouler sans aucun frais à prévoir.",
-    features: [
-        'Grand écran tactile multimédia 📺',
-        'Caméra de recul haute définition',
-        'Intérieur spacieux et propre',
-        'Sièges confortables avec sellerie de qualité',
-        'Climatisation automatique bi-zone',
-        'Démarrage sans clé (Keyless Start)',
-        'Direction assistée et volant multifonction',
-        'Finitions élégantes et modernes',
-        'Système de freinage ABS et contrôle de stabilité (ESC)',
-        'Airbags frontaux et latéraux',
-        'Capteurs de stationnement arrière',
-        'Feux LED de jour',
-        'Système anti-patinage',
-        'Bonne garde au sol pour routes urbaines et rurales',
-        'Véhicule déjà dédouané',
-        'Assurance en cours',
-        'Visite technique à jour',
-        'Papiers complets',
-        'Kilométrage non garanti'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'suv-1', url: '/hundai1.png', hint: 'white suv', type: 'image' },
-        { id: 'suv-2', url: '/hundai2.png', hint: 'blue suv', type: 'image' },
-        { id: 'suv-3', url: '/hundai3.png', hint: 'suv interior', type: 'image' },
-        { id: 'suv-4', url: '/hundai3.jpeg', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-2', url: '/honda.mp4', hint: 'santa fe video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '3',
-    make: 'Toyota',
-    model: 'Hilux',
-    year: 2021,
-    price: 45000,
-    mileage: 80000,
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    description: "Le Toyota Hilux est la référence en matière de pick-up. Sa robustesse légendaire et sa capacité tout-terrain en font le véhicule parfait pour affronter tous les défis.",
-    features: ['4x4', 'Fiabilité légendaire', 'Climat tropicalisé', 'Excellente valeur de revente'],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'offroad-1', url: '/toyota1.png', hint: 'off-road vehicle', type: 'image' },
-        { id: 'suv-1', url: '/seniran.png', hint: 'white suv', type: 'image' },
-        { id: 'truck-3', url: '/Ford1.png', hint: 'pickup interior', type: 'image' },
-        { id: 'truck-4', url: '/kia1.png', hint: 'pickup dashboard', type: 'image' },
-        { id: 'video-placeholder-3', url: '/honda.mp4', hint: 'hilux video', type: 'video' }
-    ],
-    listingType: 'rent',
-  },
-  {
-    id: '4',
-    make: 'Jeep',
-    model: 'Cherokee',
-    year: 2017,
-    price: 7900000,
-    mileage: 0, // Mileage is unknown
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: "Découvrez ce magnifique Jeep Cherokee 2017, un SUV robuste et élégant, alliant puissance, confort et sécurité. Le véhicule est déjà dédouané, en excellent état, et prêt à rouler sans aucune dépense supplémentaire.",
-    features: [
-        'Grand écran tactile multimédia 📺',
-        'Caméra de recul',
-        'Intérieur propre et bien entretenu',
-        'Climatisation performante',
-        'Jantes en alliage (jante allu) au design sportif',
-        'Sièges ergonomiques et confortables',
-        'Volant multifonction avec commandes intégrées',
-        'Design extérieur moderne et robuste typique de Jeep',
-        'Système de freinage ABS et contrôle de stabilité (ESP)',
-        'Airbags frontaux et latéraux',
-        'Feux LED et antibrouillard',
-        'Capteurs de stationnement arrière',
-        'Système antipatinage et assistance en montée',
-        'Assurance en cours',
-        'Visite technique à jour',
-        'Papiers complets',
-        'Kilométrage non garanti',
-        '4x4',
-        'Moteur 4 cylindres essence',
-        'Faible consommation'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'suv-1', url: '/jepp1.png', hint: 'gray suv', type: 'image' },
-        { id: 'suv-2', url: '/jepp2.png', hint: 'jeep interior', type: 'image' },
-        { id: 'suv-3', url: '/jepp3.png', hint: 'cherokee interior', type: 'image' },
-        { id: 'suv-4', url: '/jepp4.jpeg', hint: 'cherokee dashboard', type: 'image' },
-        { id: 'video-placeholder-4', url: '/jepp.mp4', hint: 'cherokee video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '5',
-    make: 'Kia',
-    model: 'Sportage',
-    year: 2022,
-    price: 35000,
-    mileage: 30000,
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: 'Le Kia Sportage est un SUV élégant et spacieux. Il combine un design audacieux, un intérieur confortable et des technologies de pointe pour une expérience de conduite supérieure.',
-    features: ['Toit panoramique', 'Système audio premium', 'Aides à la conduite', 'Grand coffre'],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'suv-1', url: '/kia1.png', hint: 'white suv', type: 'image' },
-        { id: 'suv-2', url: '/hyundai.png', hint: 'black suv', type: 'image' },
-        { id: 'luxury-1', url: '/Ford1.png', hint: 'suv interior', type: 'image' },
-        { id: 'sedan-4', url: 'https://images.unsplash.com/photo-1647269826024-2bf241770b6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx0b3lvdGElMjB5YXJpc3xlbnwwfHx8fDE3NTg1NDMyNjl8MA&ixlib=rb-4.1.0&q=80&w=1080', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-5', url: '/honda.mp4', hint: 'sportage video', type: 'video' }
-    ],
-    listingType: 'rent',
-  },
-  {
-    id: '6',
-    make: 'Renault',
-    model: 'QM6',
-    year: 2018,
-    price: 7700000,
-    mileage: 87000,
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    description: "Offrez-vous le confort et l’élégance du Renault QM6 2018, un SUV haut de gamme reconnu pour sa performance, sa robustesse et son design raffiné. Le véhicule est déjà dédouané, en excellent état, et prêt à prendre la route sans aucune dépense à prévoir.",
-    features: [
-        'Grand écran tactile multimédia 📺',
-        'Caméra de recul haute définition',
-        'Intérieur cuir premium 🪶',
-        'Démarrage sans clé (système Let’s Go) 🔑',
-        'Climatisation automatique bi-zone',
-        'Sièges confortables et spacieux',
-        'Finitions modernes et tableau de bord digital',
-        'Véhicule Full Options',
-        'Airbags frontaux, latéraux et rideaux',
-        'Système de freinage ABS et contrôle de stabilité (ESP)',
-        'Capteurs de stationnement arrière',
-        'Feux LED et antibrouillards',
-        'Régulateur et limiteur de vitesse',
-        'Direction assistée et assistance au démarrage en côte',
-        'Assurance en cours',
-        'Visite technique à jour',
-        'Papiers complets et conformes'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'luxury-1', url: '/renault1.png', hint: 'luxury car', type: 'image' },
-        { id: 'sedan-1', url: '/renault2.png', hint: 'red sedan', type: 'image' },
-        { id: 'luxury-2', url: '/renault3.png', hint: 'luxury interior', type: 'image' },
-        { id: 'luxury-3', url: '/renault4.jpeg', hint: 'luxury dashboard', type: 'image' },
-        { id: 'video-placeholder-6', url: '/renault.mp4', hint: 'c-class video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '7',
-    make: 'Toyota',
-    model: 'RAV4',
-    year: 2015,
-    price: 5500000,
-    mileage: 0,
-    fuelType: 'Petrol',
-    transmission: 'Manual',
-    description: "Découvrez ce superbe Toyota RAV4 2015, un SUV fiable, économique et robuste, reconnu pour son confort de conduite et sa durabilité légendaire. Le véhicule est en excellent état, moteur impeccable, organes mécaniques parfaits, et aucune dépense à prévoir.",
-    features: [
-        'Climatisation fonctionnelle ❄️',
-        'Jantes en alliage (jante allu) sportives',
-        'Intérieur propre et bien entretenu',
-        'Sièges confortables et habitacle spacieux',
-        'Design extérieur robuste et élégant',
-        'Airbags frontaux et latéraux',
-        'Système de freinage ABS',
-        'Contrôle de stabilité (ESP)',
-        'Direction assistée',
-        'Système 4x4 idéal pour routes urbaines ou terrains difficiles',
-        'Assurance en cours',
-        'Visite technique à jour',
-        'Papiers complets et conformes',
-        'Moteur 2.0L – performant et économique',
-        'Faible consommation',
-        'Échange possible'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'electric-1', url: '/toyota1.png', hint: 'electric vehicle', type: 'image' },
-        { id: 'hatchback-1', url: '/toyota2.png', hint: 'gray hatchback', type: 'image' },
-        { id: 'electric-2', url: '/toyota3.png', hint: 'electric interior', type: 'image' },
-        { id: 'electric-3', url: '/toyota4.jpeg', hint: 'electric dashboard', type: 'image' },
-        { id: 'video-placeholder-7', url: '/toyota.mp4', hint: 'dolphin video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '8',
-    make: 'Renault',
-    model: 'Duster',
-    year: 2019,
-    price: 25000,
-    mileage: 95000,
-    fuelType: 'Diesel',
-    transmission: 'Manual',
-    description: "Le Renault Duster est un SUV polyvalent et économique. Connu pour sa robustesse, il est aussi à l'aise en ville que sur les pistes.",
-    features: ['Bonne garde au sol', 'Économique', 'Spacieux', 'Entretien facile'],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'suv-2', url: '/renault.png', hint: 'black suv', type: 'image' },
-        { id: 'offroad-1', url: '/hyundai.png', hint: 'off-road vehicle', type: 'image' },
-        { id: 'suv-3', url: '/mercedes.png', hint: 'suv interior', type: 'image' },
-        { id: 'suv-4', url: '/toyota1.png', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-8', url: '/honda.mp4', hint: 'duster video', type: 'video' }
-    ],
-    listingType: 'rent',
-  },
-  {
-    id: '9',
-    make: 'Peugeot',
-    model: '2008',
-    year: 2016,
-    price: 5900000,
-    mileage: 0,
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    description: "Cette Peugeot 2008 est en excellent état, aussi bien mécaniquement qu’esthétiquement. Elle offre une conduite fluide, une faible consommation, et un niveau d’équipement haut de gamme.",
-    features: [
-        'Grand écran multimédia tactile 📺',
-        'Caméra de recul pour un stationnement facilité 🎥',
-        'Toit panoramique pour une meilleure luminosité 🌅',
-        'Climatisation performante ❄️',
-        'Intérieur et extérieur impeccables 🧼',
-        'Moteur et organes en parfait état 🔧',
-        'Assurance en cours',
-        'Visite technique valide',
-        'Papiers complets et en règle',
-        'Échange possible'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-2', url: '/peugeot1.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-1', url: '/peugeot2.png', hint: 'red sedan', type: 'image' },
-        { id: 'sedan-3', url: '/peugeot3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/peugeot4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-9', url: '/peugeot.mp4', hint: '301 video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '10',
-    make: 'Ford',
-    model: 'Ranger',
-    year: 2022,
-    price: 50000,
-    mileage: 40000,
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    description: "Puissant et intelligent, le Ford Ranger est prêt pour l'aventure et le travail. Un pick-up qui ne fait aucun compromis sur le style et la technologie.",
-    features: ['4x4', 'Capacités tout-terrain', 'Technologie embarquée', 'Design imposant'],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'offroad-1', url: '/ranger.png', hint: 'off-road vehicle', type: 'image' },
-        { id: 'truck-2', url: '/mercedes.png', hint: 'commercial truck', type: 'image' },
-        { id: 'truck-3', url: '/seniran.png', hint: 'truck interior', type: 'image' },
-        { id: 'truck-4', url: '/renault.png', hint: 'truck dashboard', type: 'image' },
-        { id: 'video-placeholder-10', url: '/honda.mp4', hint: 'ranger video', type: 'video' }
-    ],
-    listingType: 'rent',
-  },
-  {
-    id: '11',
-    make: 'Toyota',
-    model: 'Prado',
-    year: 2023,
-    price: 75000,
-    mileage: 25000,
-    fuelType: 'Diesel',
-    transmission: 'Automatic',
-    description: "Le Toyota Land Cruiser Prado est le summum du SUV de luxe et tout-terrain. Il offre une combinaison parfaite de confort, de puissance et de capacité à aller n'importe où.",
-    features: ['Luxe et confort', '7 places', 'Capacités 4x4 extrêmes', 'Très haute fiabilité'],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'suv-2', url: '/prado.png', hint: 'black suv', type: 'image' },
-        { id: 'luxury-1', url: '/kia1.png', hint: 'luxury car interior', type: 'image' },
-        { id: 'suv-3', url: '/seniran.png', hint: 'suv interior', type: 'image' },
-        { id: 'suv-4', url: '/peugeot.png', hint: 'suv dashboard', type: 'image' },
-        { id: 'video-placeholder-11', url: '/honda.mp4', hint: 'prado video', type: 'video' }
-    ],
-    listingType: 'rent',
-  },
-  {
-    id: '12',
-    make: 'Hyundai',
-    model: 'Avante',
-    year: 2012,
-    price: 3250000,
-    mileage: 0, // Mileage is unknown
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: "Cette Hyundai Avante combine style moderne, équipements haut de gamme et faible consommation. Idéale pour la ville comme pour les longs trajets, elle offre une conduite douce et agréable.",
-    features: [
-        'Grand écran multimédia 📺',
-        'Caméra de recul pour un stationnement en toute sécurité 🎥',
-        'Intérieur cuir élégant 🖤',
-        'Toit ouvrant panoramique 🌤️',
-        'Jantes alliage sportives ⚙️',
-        'Clé “Let’s Go” intelligente 🔑',
-        'Moteur 1.8L 4 cylindres, économique et réactif ⛽️',
-        'Véhicule full options, très propre et bien entretenu',
-        'Assurance en cours',
-        'Visite technique valide',
-        'Papiers complets',
-        'Échange possible',
-        'Kilométrage non garanti'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'classic-1', url: '/hyundai1.png', hint: 'classic car', type: 'image' },
-        { id: 'sedan-2', url: '/hyundai2.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-3', url: '/hyundai3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/hyundai4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-12', url: '/hyundai.mp4', hint: 'avante video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '13',
-    make: 'Peugeot',
-    model: '308',
-    year: 2013,
-    price: 3850000,
-    mileage: 0, // Mileage is unknown
-    fuelType: 'Diesel',
-    transmission: 'Manual',
-    description: "La Peugeot 308 se distingue par son design raffiné, sa tenue de route exemplaire et son confort de conduite incomparable. Économique et robuste, elle est parfaite pour un usage quotidien ou professionnel.",
-    features: [
-        'Grand écran tactile 📺',
-        'Système audio CD 💿 et Bluetooth intégré 🎶',
-        'Climatisation performante ❄️',
-        'Moteur DV6 reconnu pour sa fiabilité et sa faible consommation ⛽️',
-        'Intérieur propre et bien entretenu',
-        'Véhicule en excellent état mécanique',
-        'Assurance en cours',
-        'Visite technique valide',
-        'Papiers complets'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-2', url: '/peugeot1.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-1', url: '/peugeot2.png', hint: 'red sedan', type: 'image' },
-        { id: 'sedan-3', url: '/peugeot3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/peugeot4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-13', url: '/peugeot.mp4', hint: '308 video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '14',
-    make: 'Toyota',
-    model: 'Matrix',
-    year: 2010,
-    price: 2900000,
-    mileage: 0, // Mileage is unknown
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: "La Toyota Matrix est reconnue pour sa robustesse légendaire, sa faible consommation et sa facilité d’entretien. C’est une voiture idéale aussi bien pour les trajets urbains que pour les longs déplacements.",
-    features: [
-        'Transmission automatique ⚙️',
-        'Climatisation performante ❄️',
-        'Moteur 2.0L puissant et silencieux',
-        'Organe et moteur en excellent état',
-        'Véhicule propre, prêt à rouler sans frais',
-        'Assurance en cours',
-        'Visite technique valide',
-        'Papiers complets',
-        'Échange possible'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-1', url: '/toyota1.png', hint: 'toyota matrix', type: 'image' },
-        { id: 'sedan-2', url: '/toyota2.png', hint: 'toyota matrix', type: 'image' },
-        { id: 'sedan-3', url: '/toyota3.png', hint: 'toyota matrix interior', type: 'image' },
-        { id: 'sedan-4', url: '/toyota4.jpeg', hint: 'toyota matrix dashboard', type: 'image' },
-        { id: 'video-placeholder-14', url: '/toyota.mp4', hint: 'matrix video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '15',
-    make: 'Toyota',
-    model: 'Corolla',
-    year: 2013,
-    price: 2900000,
-    mileage: 0,
-    fuelType: 'Petrol',
-    transmission: 'Automatic',
-    description: 'La Toyota Corolla est reconnue pour sa durabilité, sa consommation maîtrisée et son confort de conduite. Un excellent choix pour la ville comme pour les longs trajets.',
-    features: [
-        'Transmission automatique ⚙️',
-        'Climatisation efficace ❄️',
-        'Grand écran multimédia 📺',
-        'Caméra de recul 🎥 pour un stationnement facile',
-        'Moteur et organes mécaniques en parfait état',
-        'Véhicule propre et bien entretenu',
-        'Papiers complets et en règle'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-1', url: '/toyota1.png', hint: 'toyota corolla', type: 'image' },
-        { id: 'sedan-2', url: '/toyota2.png', hint: 'toyota corolla', type: 'image' },
-        { id: 'sedan-3', url: '/toyota3.png', hint: 'toyota corolla interior', type: 'image' },
-        { id: 'sedan-4', url: '/toyota4.jpeg', hint: 'toyota corolla dashboard', type: 'image' },
-        { id: 'video-placeholder-15', url: '/toyota.mp4', hint: 'corolla video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '16',
-    make: 'Peugeot',
-    model: '307',
-    year: 2008,
-    price: 2850000,
-    mileage: 0,
-    fuelType: 'Diesel',
-    transmission: 'Manual',
-    description: 'La Peugeot 307 est reconnue pour sa robustesse, sa tenue de route sûre et sa faible consommation. Idéale pour un usage urbain ou pour les longs trajets.',
-    features: [
-        'Climatisation efficace ❄️',
-        'Moteur DV6 robuste et fiable 🔧',
-        'Organes mécaniques en parfait état',
-        'Véhicule propre et bien entretenu',
-        'Assurance en cours ✅',
-        'Visite technique valide ✅',
-        'Papiers complets 🗂️'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-2', url: '/peugeot1.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-1', url: '/peugeot2.png', hint: 'red sedan', type: 'image' },
-        { id: 'sedan-3', url: '/peugeot3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/peugeot4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-13', url: '/peugeot.mp4', hint: '307 video', type: 'video' }
-    ],
-    listingType: 'sale',
-  },
-  {
-    id: '17',
-    make: 'CITROËN',
-    model: 'PICASSO',
-    year: 2008,
-    price: 2400000,
-    mileage: 0,
-    fuelType: 'Diesel',
-    transmission: 'Manual',
-    description: "Cette Citroën Picasso est très bien entretenue, conduite par une femme 👩, et offre un intérieur spacieux, idéal pour la famille ou les trajets urbains et périurbains.",
-    features: [
-        'Climatisation performante ❄️',
-        'Moteur robuste et économique 🔧',
-        'Organes mécaniques en parfait état',
-        'Véhicule propre et soigneusement entretenu',
-        'Assurance en cours ✅',
-        'Visite technique valide ✅',
-        'Papiers complets 🗂️'
-    ],
-    isLocallyAssembled: false,
-    images: [
-        { id: 'sedan-2', url: '/peugeot1.png', hint: 'blue sedan', type: 'image' },
-        { id: 'sedan-1', url: '/peugeot2.png', hint: 'red sedan', type: 'image' },
-        { id: 'sedan-3', url: '/peugeot3.png', hint: 'sedan interior', type: 'image' },
-        { id: 'sedan-4', url: '/peugeot4.jpeg', hint: 'sedan dashboard', type: 'image' },
-        { id: 'video-placeholder-17', url: '/peugeot.mp4', hint: 'picasso video', type: 'video' }
-    ],
-    listingType: 'sale',
+// Define a type that includes the Firestore document ID
+export type VehicleWithDocId = Vehicle & { docId: string };
+
+// This function now fetches all vehicles directly from the Firestore database
+// and includes the Firestore document ID.
+export async function getAllVehicles(): Promise<VehicleWithDocId[]> {
+  try {
+    const vehiclesCollection = collection(db, 'vehicles');
+    const querySnapshot = await getDocs(vehiclesCollection);
+
+    if (querySnapshot.empty) {
+      return [];
+    }
+
+    const vehicles: VehicleWithDocId[] = querySnapshot.docs.map(doc => {
+      const data = doc.data();
+      return {
+        ...(data as Vehicle),
+        docId: doc.id,
+      };
+    });
+
+    return vehicles;
+  } catch (error) {
+    console.error("Error fetching vehicles from Firestore:", error);
+    return [];
   }
-];
-
-
-export async function getAllVehicles(): Promise<Vehicle[]> {
-  // Return static data, simulating an async API call.
-  return Promise.resolve(staticVehicles);
 }
 
-export async function getVehicleById(id: string): Promise<Vehicle | null> {
-   const vehicle = staticVehicles.find(v => v.id === id) || null;
-   return Promise.resolve(vehicle);
+// Fetches a single vehicle by its internal UUID (the 'id' field).
+export async function getVehicleById(id: string): Promise<VehicleWithDocId | null> {
+   try {
+    const q = query(collection(db, "vehicles"), where("id", "==", id), limit(1));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+        return null;
+    }
+
+    const docSnapshot = querySnapshot.docs[0];
+    const vehicleData = docSnapshot.data() as Vehicle;
+    
+    return { ...vehicleData, docId: docSnapshot.id };
+  } catch (error) {
+    console.error(`Error fetching vehicle with ID ${id}:`, error);
+    return null;
+  }
+}
+
+// Fetches a single vehicle by its Firestore Document ID.
+export async function getVehicleByDocId(docId: string): Promise<VehicleWithDocId | null> {
+  try {
+    const docRef = doc(db, 'vehicles', docId);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+      return null;
+    }
+
+    return { ...(docSnap.data() as Vehicle), docId: docSnap.id };
+  } catch (error) {
+    console.error(`Error fetching vehicle with document ID ${docId}:`, error);
+    return null;
+  }
+}
+
+// Adds a new vehicle to Firestore
+export async function addVehicle(vehicleData: Omit<Vehicle, 'id' | 'images'>): Promise<void> {
+    const newVehicle: Omit<Vehicle, 'images'> & { images?: any[] } = {
+        ...vehicleData,
+        id: uuidv4(), // Generate a unique ID for the new vehicle
+    };
+    newVehicle.images = []; // Placeholder for images, you can expand this
+
+    try {
+        await addDoc(collection(db, 'vehicles'), newVehicle as Vehicle);
+    } catch (error) {
+        console.error("Error adding vehicle to Firestore:", error);
+        throw error;
+    }
+}
+
+// Updates a vehicle document in Firestore.
+export async function updateVehicle(docId: string, dataToUpdate: Partial<Vehicle>): Promise<void> {
+    try {
+        const docRef = doc(db, 'vehicles', docId);
+        await updateDoc(docRef, dataToUpdate);
+    } catch (error) {
+        console.error(`Error updating vehicle with doc ID ${docId}:`, error);
+        throw error;
+    }
+}
+
+// Deletes a vehicle document from Firestore.
+export async function deleteVehicle(docId: string): Promise<void> {
+    try {
+        const docRef = doc(db, 'vehicles', docId);
+        await deleteDoc(docRef);
+    } catch (error) {
+        console.error(`Error deleting vehicle with doc ID ${docId}:`, error);
+        throw error;
+    }
 }

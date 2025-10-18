@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import type { Vehicle } from '@/types/vehicle';
 import { VehicleCard } from './VehicleCard';
 import { Input } from '@/components/ui/input';
@@ -15,7 +15,8 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/
 type Filters = {
   searchTerm: string;
   make: string;
-  fuelType: string;
+  model: string;
+  year: string;
   priceRange: [number, number];
 };
 
@@ -32,18 +33,32 @@ export function VehicleCatalogue({
 }) {
   const prices = initialVehicles.length > 0 ? initialVehicles.map(v => v.price) : [0];
   const minPrice = Math.min(...prices);
-  const maxPrice = Math.max(...prices, 1); // Ensure maxPrice is always greater than minPrice
+  const maxPrice = Math.max(...prices, 1);
 
   const [filters, setFilters] = useState<Filters>({
     searchTerm: '',
     make: 'all',
-    fuelType: 'all',
+    model: 'all',
+    year: 'all',
     priceRange: [minPrice, maxPrice],
   });
   const { toast } = useToast();
 
   const makes = useMemo(() => ['all', ...new Set(initialVehicles.map((v) => v.make))], [initialVehicles]);
-  const fuelTypes = useMemo(() => ['all', ...new Set(initialVehicles.map((v) => v.fuelType))], [initialVehicles]);
+  const models = useMemo(() => {
+      if (filters.make === 'all') return ['all'];
+      const relevantModels = initialVehicles.filter(v => v.make === filters.make).map(v => v.model);
+      return ['all', ...new Set(relevantModels)];
+  }, [initialVehicles, filters.make]);
+  const years = useMemo(() => ['all', ...new Set(initialVehicles.map((v) => v.year.toString()))].sort((a,b) => b.localeCompare(a)), [initialVehicles]);
+
+
+  useEffect(() => {
+    // Reset model if the selected make doesn't have it
+    if (filters.make !== 'all' && !models.includes(filters.model)) {
+      handleFilterChange('model', 'all');
+    }
+  }, [filters.make, models, filters.model]);
 
   const handleFilterChange = (key: keyof Filters, value: any) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -53,7 +68,8 @@ export function VehicleCatalogue({
     setFilters({
       searchTerm: '',
       make: 'all',
-      fuelType: 'all',
+      model: 'all',
+      year: 'all',
       priceRange: [minPrice, maxPrice],
     });
      toast({
@@ -64,7 +80,7 @@ export function VehicleCatalogue({
 
   const filteredVehicles = useMemo(() => {
     return initialVehicles.filter((vehicle) => {
-      const { searchTerm, make, fuelType, priceRange } = filters;
+      const { searchTerm, make, model, year, priceRange } = filters;
       const searchLower = searchTerm.toLowerCase();
 
       return (
@@ -72,7 +88,8 @@ export function VehicleCatalogue({
           vehicle.make.toLowerCase().includes(searchLower) ||
           vehicle.model.toLowerCase().includes(searchLower)) &&
         (make === 'all' || vehicle.make === make) &&
-        (fuelType === 'all' || vehicle.fuelType === fuelType) &&
+        (model === 'all' || vehicle.model === model) &&
+        (year === 'all' || vehicle.year.toString() === year) &&
         (vehicle.price >= priceRange[0] && vehicle.price <= priceRange[1])
       );
     });
@@ -99,15 +116,14 @@ export function VehicleCatalogue({
         <>
           <Accordion type="single" collapsible className="w-full" defaultValue="filters">
             <AccordionItem value="filters">
-              <AccordionTrigger className="text-lg font-headline">Filtres de Recherche</AccordionTrigger>
+              <AccordionTrigger className="text-lg font-headline">Filtres de Recherche Avancée</AccordionTrigger>
               <AccordionContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-card rounded-lg border">
-                  {/* Manual Filters */}
                   <Input
-                    placeholder="Rechercher par marque ou modèle..."
+                    placeholder="Recherche rapide..."
                     value={filters.searchTerm}
                     onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
-                    className="lg:col-span-2"
+                    className="lg:col-span-4"
                   />
                   <Select value={filters.make} onValueChange={(value) => handleFilterChange('make', value)}>
                     <SelectTrigger><SelectValue placeholder="Marque" /></SelectTrigger>
@@ -115,22 +131,32 @@ export function VehicleCatalogue({
                       {makes.map((make) => <SelectItem key={make} value={make}>{make === 'all' ? 'Toutes les marques' : make}</SelectItem>)}
                     </SelectContent>
                   </Select>
-                  <Select value={filters.fuelType} onValueChange={(value) => handleFilterChange('fuelType', value)}>
-                    <SelectTrigger><SelectValue placeholder="Carburant" /></SelectTrigger>
+                  <Select value={filters.model} onValueChange={(value) => handleFilterChange('model', value)} disabled={filters.make === 'all'}>
+                    <SelectTrigger><SelectValue placeholder="Modèle" /></SelectTrigger>
                     <SelectContent>
-                      {fuelTypes.map((fuel) => <SelectItem key={fuel} value={fuel}>{fuel === 'all' ? 'Tous les carburants' : fuel}</SelectItem>)}
+                      {models.map((model) => <SelectItem key={model} value={model}>{model === 'all' ? 'Tous les modèles' : model}</SelectItem>)}
                     </SelectContent>
                   </Select>
-                  <div className="lg:col-span-4">
-                      <label className="block text-sm font-medium mb-2">Fourchette de prix ({listingType === 'rent' ? '/ jour' : ''})</label>
+                   <Select value={filters.year} onValueChange={(value) => handleFilterChange('year', value)}>
+                    <SelectTrigger><SelectValue placeholder="Année" /></SelectTrigger>
+                    <SelectContent>
+                      {years.map((year) => <SelectItem key={year} value={year}>{year === 'all' ? 'Toutes les années' : year}</SelectItem>)}
+                    </SelectContent>
+                  </Select>
+                  <div className="lg:col-span-4 space-y-4">
+                      <label className="block text-sm font-medium">Fourchette de prix ({listingType === 'rent' ? '/ jour' : ''})</label>
                       <Slider
                           min={minPrice}
                           max={maxPrice}
                           step={listingType === 'rent' ? 10 : 1000}
-                          value={[filters.priceRange[1]]}
-                          onValueChange={([val]) => handleFilterChange('priceRange', [minPrice, val])}
+                          value={filters.priceRange}
+                          onValueChange={(value) => handleFilterChange('priceRange', value)}
+                          minStepsBetweenThumbs={1}
                       />
-                      <div className="text-sm text-muted-foreground mt-2">Jusqu'à: {priceFormatter.format(filters.priceRange[1])}</div>
+                      <div className="flex justify-between text-sm text-muted-foreground">
+                        <span>{priceFormatter.format(filters.priceRange[0])}</span>
+                        <span>{priceFormatter.format(filters.priceRange[1])}</span>
+                      </div>
                   </div>
                 </div>
                 <div className="flex justify-end p-4">

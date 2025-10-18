@@ -7,13 +7,13 @@ import Link from 'next/link';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Calendar, Fuel, Gauge, Wrench } from 'lucide-react';
+import { ArrowRight, Calendar, Fuel, Gauge, Wrench, Car } from 'lucide-react'; // Import Car icon
 
 export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
   const formatter = new Intl.NumberFormat('fr-FR', {
     style: 'currency',
     currency: 'XOF',
-    currencyDisplay: 'code', // Use code to avoid symbol discrepancies
+    currencyDisplay: 'code',
     minimumFractionDigits: 0,
   });
   
@@ -22,19 +22,29 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
     ? `${formattedPrice} FCFA / jour`
     : `${formattedPrice} FCFA`;
 
+  const hasImage = vehicle.images && vehicle.images.length > 0;
+  const imageUrl = hasImage ? vehicle.images[0].url : '';
+  const imageAlt = hasImage ? (vehicle.images[0].hint || `Photo de ${vehicle.make} ${vehicle.model}`) : `Photo de ${vehicle.make} ${vehicle.model}`;
+
   return (
     <Card className="flex flex-col overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1 relative">
       <Link href={`/vehicles/${vehicle.id}`} className="flex flex-col h-full">
         <CardHeader className="p-0">
-          <div className="relative h-56 w-full">
-            <Image
-              src={vehicle.images[0].url}
-              alt={`${vehicle.make} ${vehicle.model}`}
-              fill
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              data-ai-hint={vehicle.images[0].hint}
-            />
+          <div className="relative h-56 w-full bg-secondary/50"> {/* Add a background */}
+            {hasImage ? (
+              <Image
+                src={imageUrl}
+                alt={imageAlt}
+                fill
+                className="object-cover"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                data-ai-hint={imageAlt}
+              />
+            ) : (
+              <div className="flex items-center justify-center h-full">
+                <Car className="w-20 h-20 text-muted-foreground" />
+              </div>
+            )}
              <div className="absolute top-2 left-2 flex flex-col gap-2">
                {vehicle.isLocallyAssembled && (
                 <Badge variant="default" className="bg-primary text-primary-foreground">Assemblage Local</Badge>
