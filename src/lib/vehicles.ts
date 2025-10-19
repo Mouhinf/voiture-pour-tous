@@ -71,15 +71,14 @@ export async function getVehicleByDocId(docId: string): Promise<VehicleWithDocId
 }
 
 // Adds a new vehicle to Firestore
-export async function addVehicle(vehicleData: Omit<Vehicle, 'id' | 'images'>): Promise<void> {
-    const newVehicle: Omit<Vehicle, 'images'> & { images?: any[] } = {
+export async function addVehicle(vehicleData: Omit<Vehicle, 'id'>): Promise<void> {
+    const newVehicle: Vehicle = {
         ...vehicleData,
         id: uuidv4(), // Generate a unique ID for the new vehicle
     };
-    newVehicle.images = []; // Placeholder for images, you can expand this
 
     try {
-        await addDoc(collection(db, 'vehicles'), newVehicle as Vehicle);
+        await addDoc(collection(db, 'vehicles'), newVehicle as any);
     } catch (error) {
         console.error("Error adding vehicle to Firestore:", error);
         throw error;

@@ -37,7 +37,6 @@ export default function EditVehiclePage() {
         const fetchedVehicle = await getVehicleByDocId(docId);
         if (fetchedVehicle) {
           setVehicle(fetchedVehicle);
-          // Populate the textarea for images
           setImagesText(fetchedVehicle.images.map(img => img.url).join('\n'));
         } else {
           setError('Véhicule non trouvé.');
@@ -135,7 +134,7 @@ export default function EditVehiclePage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Modifier le véhicule</h1>
+      <h1 className="text-3xl font-bold mb-6 text-primary">Modifier le véhicule</h1>
       <form onSubmit={handleSubmit} className="bg-white p-8 rounded-lg shadow-md max-w-2xl mx-auto">
         {error && <p className="bg-red-100 text-red-700 p-3 rounded-md mb-4">{error}</p>}
         {success && <p className="bg-green-100 text-green-700 p-3 rounded-md mb-4">Véhicule mis à jour avec succès !</p>}
@@ -143,7 +142,7 @@ export default function EditVehiclePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
            <div>
               <label htmlFor="listingType" className="block text-gray-700 font-medium mb-2">Type d'annonce</label>
-              <select id="listingType" name="listingType" value={vehicle.listingType} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md">
+              <select id="listingType" name="listingType" value={vehicle.listingType} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black">
                   <option value="sale">À Vendre</option>
                   <option value="rent">À Louer</option>
               </select>
@@ -153,37 +152,37 @@ export default function EditVehiclePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
           <div>
             <label htmlFor="make" className="block text-gray-700 font-medium mb-2">Marque</label>
-            <input type="text" id="make" name="make" value={vehicle.make} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md" required />
+            <input type="text" id="make" name="make" value={vehicle.make} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black" required />
           </div>
           <div>
             <label htmlFor="model" className="block text-gray-700 font-medium mb-2">Modèle</label>
-            <input type="text" id="model" name="model" value={vehicle.model} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md" required />
+            <input type="text" id="model" name="model" value={vehicle.model} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black" required />
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
             <div>
                 <label htmlFor="year" className="block text-gray-700 font-medium mb-2">Année</label>
-                <input type="number" id="year" name="year" value={vehicle.year} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                <input type="number" id="year" name="year" value={vehicle.year} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black" />
             </div>
             <div>
                 <label htmlFor="price" className="block text-gray-700 font-medium mb-2">Prix (en F CFA)</label>
-                <input type="number" id="price" name="price" value={vehicle.price} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md" />
+                <input type="number" id="price" name="price" value={vehicle.price} onChange={handleInputChange} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black" />
             </div>
         </div>
 
         <div className="mb-4">
             <label htmlFor="description" className="block text-gray-700 font-medium mb-2">Description</label>
-            <textarea id="description" name="description" value={vehicle.description} onChange={handleInputChange} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-md"></textarea>
+            <textarea id="description" name="description" value={vehicle.description} onChange={handleInputChange} rows={4} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"></textarea>
         </div>
 
         <div className="mb-6">
             <label htmlFor="features" className="block text-gray-700 font-medium mb-2">Caractéristiques (une par ligne)</label>
-            <textarea id="features" name="features" value={vehicle.features.join('\n')} onChange={handleFeaturesChange} rows={6} className="w-full px-4 py-2 border border-gray-300 rounded-md"></textarea>
+            <textarea id="features" name="features" value={vehicle.features.join('\n')} onChange={handleFeaturesChange} rows={6} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"></textarea>
         </div>
          <div className="mb-6">
             <label htmlFor="images" className="block text-gray-700 font-medium mb-2">Images (URLs, une par ligne)</label>
-            <textarea id="images" name="images" value={imagesText} onChange={handleImagesChange} rows={6} className="w-full px-4 py-2 border border-gray-300 rounded-md"></textarea>
+            <textarea id="images" name="images" value={imagesText} onChange={handleImagesChange} rows={6} className="w-full px-4 py-2 border border-gray-300 rounded-md text-black"></textarea>
         </div>
 
         <div className="flex items-center justify-between">
